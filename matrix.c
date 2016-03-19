@@ -334,3 +334,4 @@ struct matrix * generate_curve_coefs( double p1, double p2,
   return coeff;
 }
 
+//done?
