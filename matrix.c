@@ -318,7 +318,7 @@ struct matrix * make_hermite() {
   ====================*/
 struct matrix * generate_curve_coefs( double p1, double p2, 
 				      double p3, double p4, int type) {
-  if(type = 0){
+  if(type == BEZIER_MODE){
     struct matrix * mult = make_bezier();
   }
   else{

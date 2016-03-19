@@ -21,6 +21,26 @@
 void add_circle( struct matrix * points, 
 		 double cx, double cy, 
 		 double r, double step ) {
+  int t = 0;
+  int xc = r + cx;
+  int yc = cy;
+  int xo = r + cx;
+  int yo = cy;
+  while(t < (2 * PI)){
+    xo = xc;
+    yo = yc;
+    
+    if(points->lastcol == points->cols){
+      grow_matrix(points, points->lastcol+1);
+    }
+
+    xc = r * cos(t) + cx;
+    yc = r * sin(t) + cy;
+    
+    add_edge(points, xo, yo, 0, xc, yc, 0);
+
+    t += step;
+  }
 }
 
 /*======== void add_curve() ==========
@@ -48,6 +68,28 @@ void add_curve( struct matrix *points,
 		double x2, double y2, 
 		double x3, double y3, 
 		double step, int type ) {
+
+  struct matrix * mx = generate_curve_coefs(x0, x1, x2, x3, type);
+  struct matrix * my = generate_curve_coefs(y0, y1, y2, y3, type);
+  int t = 0;
+  int xc = mx->m[3][0];
+  int yc = my->m[3][0];
+  int xo = mx->m[3][0];
+  int y0 = my->m[3][0];
+  while(t < 1){
+    xo = xc;
+    yo = yc;
+
+    if(points -> lastcol == points -> cols){
+      grow_matrix(points, points->lastcol+1);
+    }
+    xc = t * (t * (mx->m[0][0] * t + mx->m[1][0]) + mx->m[2][0]) + mx->m[3][0];
+    yc = t * (t * (my->m[0][0] * t + my->m[1][0]) + my->m[2][0]) + my->m[3][0]; 
+
+    add_edge(points, xo, yo, 0, xc, yc, 0);
+    
+    t+=step;
+  }
 }
 
 /*======== void add_point() ==========
@@ -216,3 +258,5 @@ void draw_line(int x0, int y0, int x1, int y1, screen s, color c) {
     }
   }
 }
+
+//done?
