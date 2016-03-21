@@ -75,7 +75,7 @@ void add_curve( struct matrix *points,
   int xc = mx->m[3][0];
   int yc = my->m[3][0];
   int xo = mx->m[3][0];
-  int y0 = my->m[3][0];
+  int yo = my->m[3][0];
   while(t < 1){
     xo = xc;
     yo = yc;

@@ -92,18 +92,18 @@ void parse_file ( char * filename,
     printf(":%s:\n",line);  
   
     if(!strcmp(line, "line")){
-      sscanf(fgets(line, 255, f), "%1f %1f %1f %1f %1f %1f", &x0, &y0, & z0, &x1, &y1, &z1);
+      sscanf(fgets(line, 255, f), "%lf %lf %lf %lf %lf %lf", &x0, &y0, & z0, &x1, &y1, &z1);
       add_edge(pm, x0, y0, z0, x1, y1, z1);
     }
     else if(!strcmp(line, "circle")){
-      sscanf(fgets(line, 255, f), "%1f %1f %1f", &x0, &y0, &z0);
-      add_circle(pm, x0, y0, z0);
+      sscanf(fgets(line, 255, f), "%lf %lf %lf", &x0, &y0, &z0);
+      add_circle(pm, x0, y0, z0, 0.05);
     }
     else if(!strcmp(line, "ident")){
       ident(transform);
     }
     else if(!strcmp(line, "scale")){
-      sscanf(fgets(line, 255, f), "%1f %1f %1f", &x0, &y0, &z0);
+      sscanf(fgets(line, 255, f), "%lf %lf %lf", &x0, &y0, &z0);
       matrix_mult(make_scale(x0, y0, z0), transform);
     }
     else if(!strcmp(line, "apply")){
@@ -114,7 +114,7 @@ void parse_file ( char * filename,
       save_extension(s, "parser.png");
     }
     else if(!strcmp(line, "translate")){
-      sscanf(fgets(line, 255, f), "%1f %1f %1f", &x0, &y0, &z0);
+      sscanf(fgets(line, 255, f), "%lf %lf %lf", &x0, &y0, &z0);
       matrix_mult(make_translate(x0, y0, z0), transform);
     }
     else if(!strcmp(line, "quit")){

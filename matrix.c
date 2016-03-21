@@ -318,19 +318,20 @@ struct matrix * make_hermite() {
   ====================*/
 struct matrix * generate_curve_coefs( double p1, double p2, 
 				      double p3, double p4, int type) {
-  if(type == BEZIER_MODE){
-    struct matrix * mult = make_bezier();
-  }
-  else{
-    struct matrix * mult = make_hermite();
-  }
+  
   struct matrix * coeff = new_matrix(4, 1);
   ident(coeff);
   coeff -> m[0][0] = p1;
   coeff -> m[1][0] = p2;
   coeff -> m[2][0] = p3;
   coeff -> m[3][0] = p4;
-  matrix_mult(mult, coeff);
+ 
+  if(type == BEZIER_MODE){
+    matrix_mult(make_bezier(), coeff);
+  }
+  else{
+    matrix_mult(make_hermite(), coeff);
+  }
   return coeff;
 }
 
