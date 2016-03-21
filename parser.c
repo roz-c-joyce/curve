@@ -68,6 +68,18 @@ void parse_file ( char * filename,
   FILE *f;
   char line[256];
   
+  double x0 = 0;
+  double x1 = 0;
+  double y0 = 0;
+  double y1 = 0;
+  double z0 = 0;
+  double z1 = 0;
+
+  color c;
+  c.red = 0;
+  c.green = MAX_COLOR;
+  c.blue = 0;
+  
   clear_screen(s);
 
   if ( strcmp(filename, "stdin") == 0 ) 
@@ -78,5 +90,38 @@ void parse_file ( char * filename,
   while ( fgets(line, 255, f) != NULL ) {
     line[strlen(line)-1]='\0';
     printf(":%s:\n",line);  
+  
+    if(!strcmp(line, "line")){
+      sscanf(fgets(line, 255, f), "%1f %1f %1f %1f %1f %1f", &x0, &y0, & z0, &x1, &y1, &z1);
+      add_edge(pm, x0, y0, z0, x1, y1, z1);
+    }
+    else if(!strcmp(line, "circle")){
+      sscanf(fgets(line, 255, f), "%1f %1f %1f", &x0, &y0, &z0);
+      add_circle(pm, x0, y0, z0);
+    }
+    else if(!strcmp(line, "ident")){
+      ident(transform);
+    }
+    else if(!strcmp(line, "scale")){
+      sscanf(fgets(line, 255, f), "%1f %1f %1f", &x0, &y0, &z0);
+      matrix_mult(make_scale(x0, y0, z0), transform);
+    }
+    else if(!strcmp(line, "apply")){
+      matrix_mult(transform, pm);
+    }
+    else if(!strcmp(line, "display")){
+      draw_lines(pm, s, c);
+      save_extension(s, "parser.png");
+    }
+    else if(!strcmp(line, "translate")){
+      sscanf(fgets(line, 255, f), "%1f %1f %1f", &x0, &y0, &z0);
+      matrix_mult(make_translate(x0, y0, z0), transform);
+    }
+    else if(!strcmp(line, "quit")){
+      exit(0);
+    }
+    else {
+      printf("I'm sorry that is not a command\n");
+    }
   }
 }

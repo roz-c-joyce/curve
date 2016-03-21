@@ -21,12 +21,12 @@
 void add_circle( struct matrix * points, 
 		 double cx, double cy, 
 		 double r, double step ) {
-  int t = 0;
-  int xc = r + cx;
-  int yc = cy;
-  int xo = r + cx;
-  int yo = cy;
-  while(t < (2 * PI)){
+  double t = 0;
+  double xc = r + cx;
+  double yc = cy;
+  double xo = r + cx;
+  double yo = cy;
+  while(t < 1){
     xo = xc;
     yo = yc;
     
@@ -34,8 +34,8 @@ void add_circle( struct matrix * points,
       grow_matrix(points, points->lastcol+1);
     }
 
-    xc = r * cos(t) + cx;
-    yc = r * sin(t) + cy;
+    xc = r * cos(t * 2 * M_PI) + cx;
+    yc = r * sin(t * 2 * M_PI) + cy;
     
     add_edge(points, xo, yo, 0, xc, yc, 0);
 
