@@ -111,7 +111,8 @@ void parse_file ( char * filename,
     }
     else if(!strcmp(line, "display")){
       draw_lines(pm, s, c);
-      save_extension(s, "parser.png");
+      //save_extension(s, "parser.png"); // because display doesnt work for me
+      display(s);
     }
     else if(!strcmp(line, "translate")){
       sscanf(fgets(line, 255, f), "%lf %lf %lf", &x0, &y0, &z0);
