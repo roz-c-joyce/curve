@@ -26,7 +26,7 @@ void add_circle( struct matrix * points,
   double yc = cy;
   double xo = r + cx;
   double yo = cy;
-  while(t < 1){
+  while(t < 1 + step){
     xo = xc;
     yo = yc;
     
@@ -71,16 +71,17 @@ void add_curve( struct matrix *points,
 
   struct matrix * mx = generate_curve_coefs(x0, x1, x2, x3, type);
   struct matrix * my = generate_curve_coefs(y0, y1, y2, y3, type);
-  int t = step;
+  double t = step;
   int xc = mx->m[3][0];
   int yc = my->m[3][0];
   int xo = mx->m[3][0];
   int yo = my->m[3][0];
   //int c = 0;
-  printf("entering loop");
+  printf("entering loop\n");
   //while(t < 1.00000001){
-  for (t = step; t < 1.0000001; t += step){  
-    printf("t ==  %d\n", t);
+  for (t = 0; t < 1 + step + 0.000001; t += step){  
+    printf("t ==  %lf\n", t);
+    printf("step: %lf\n", step);
     if(points -> lastcol == points -> cols){
       grow_matrix(points, points->lastcol+1);
     }
@@ -91,7 +92,7 @@ void add_curve( struct matrix *points,
     xo = xc;
     yo = yc;
     //t+=step;
-    printf("t now: %d\n", t);
+    printf("t now: %lf\n", t);
   }
 }
 

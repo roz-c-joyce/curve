@@ -99,7 +99,7 @@ void parse_file ( char * filename,
     }
     else if(!strcmp(line, "circle")){
       sscanf(fgets(line, 255, f), "%lf %lf %lf", &x0, &y0, &z0);
-      add_circle(pm, x0, y0, z0, 0.05);
+      add_circle(pm, x0, y0, z0, 0.01);
     }
     else if(!strcmp(line, "ident")){
       ident(transform);
