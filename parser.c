@@ -74,6 +74,8 @@ void parse_file ( char * filename,
   double y1 = 0;
   double z0 = 0;
   double z1 = 0;
+  double a0 = 0;
+  double a1 = 0;
 
   color c;
   c.red = 0;
@@ -110,9 +112,10 @@ void parse_file ( char * filename,
       matrix_mult(transform, pm);
     }
     else if(!strcmp(line, "display")){
+      clear_screen(s);
       draw_lines(pm, s, c);
-      //save_extension(s, "parser.png"); // because display doesnt work for me
-      display(s);
+      save_extension(s, "parser.png"); // because display doesnt work for me
+      //display(s);
     }
     else if(!strcmp(line, "translate")){
       sscanf(fgets(line, 255, f), "%lf %lf %lf", &x0, &y0, &z0);
@@ -121,6 +124,32 @@ void parse_file ( char * filename,
     else if(!strcmp(line, "quit")){
       exit(0);
     }
+    else if(!strcmp(line, "xrotate")){
+      sscanf(fgets(line, 255, f), "%lf", &x0);
+      matrix_mult(make_rotX(x0), transform);
+    }
+    else if(!strcmp(line, "yrotate")){
+      sscanf(fgets(line, 255, f), "%lf", &x0);
+      matrix_mult(make_rotY(x0), transform);
+    }
+    else if(!strcmp(line, "zrotate")){
+      sscanf(fgets(line, 255, f), "%lf", &x0);
+      matrix_mult(make_rotZ(x0), transform);
+    }
+    else if(!strcmp(line, "hermite")){
+      sscanf(fgets(line, 255, f), "%lf %lf %lf %lf %lf %lf %lf %lf", &x0, &y0, &z0, &x1, &y1, &z1, &a0, &a1);
+      add_curve(pm, x0, y0, y1, z1, z0, x1, a0, a1, 0.01, HERMITE_MODE);
+    }
+    else if(!strcmp(line, "bezier")){
+      sscanf(fgets(line, 255, f), "%lf %lf %lf %lf %lf %lf %lf %lf", &x0, &y0, &z0, &x1, &y1, &z1, &a0, &a1);
+      add_curve(pm, x0, y0, z0, x1, y1, z1, a0, a1, 0.01, BEZIER_MODE);
+    }
+    else if(!strcmp(line, "save")){
+      clear_screen(s);
+      draw_lines(pm, s, c);
+      fgets(line, 255, f);
+      save_extension(s, line);
+    }    
     else {
       printf("I'm sorry that is not a command\n");
     }
