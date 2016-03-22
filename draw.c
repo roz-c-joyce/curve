@@ -71,15 +71,16 @@ void add_curve( struct matrix *points,
 
   struct matrix * mx = generate_curve_coefs(x0, x1, x2, x3, type);
   struct matrix * my = generate_curve_coefs(y0, y1, y2, y3, type);
-  int t = 0;
+  int t = step;
   int xc = mx->m[3][0];
   int yc = my->m[3][0];
   int xo = mx->m[3][0];
   int yo = my->m[3][0];
-  while(t < 1){
-    xo = xc;
-    yo = yc;
-
+  //int c = 0;
+  printf("entering loop");
+  //while(t < 1.00000001){
+  for (t = step; t < 1.0000001; t += step){  
+    printf("t ==  %d\n", t);
     if(points -> lastcol == points -> cols){
       grow_matrix(points, points->lastcol+1);
     }
@@ -87,8 +88,10 @@ void add_curve( struct matrix *points,
     yc = t * (t * (my->m[0][0] * t + my->m[1][0]) + my->m[2][0]) + my->m[3][0]; 
 
     add_edge(points, xo, yo, 0, xc, yc, 0);
-    
-    t+=step;
+    xo = xc;
+    yo = yc;
+    //t+=step;
+    printf("t now: %d\n", t);
   }
 }
 

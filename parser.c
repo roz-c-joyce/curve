@@ -138,6 +138,7 @@ void parse_file ( char * filename,
     }
     else if(!strcmp(line, "hermite")){
       sscanf(fgets(line, 255, f), "%lf %lf %lf %lf %lf %lf %lf %lf", &x0, &y0, &z0, &x1, &y1, &z1, &a0, &a1);
+      printf("about to add curve\n");
       add_curve(pm, x0, y0, y1, z1, z0, x1, a0, a1, 0.01, HERMITE_MODE);
     }
     else if(!strcmp(line, "bezier")){
